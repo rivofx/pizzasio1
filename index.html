@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizzeria SIO | Sibiu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #C0392B; --red-dark: #8B1A13;
+      --cream: #FAF6EE; --warm: #F0E6D3;
+      --charcoal: #1A1410; --brown: #5C3317;
+      --gold: #C9A84C; --text: #2A1F14;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(250,246,238,0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(192,57,43,0.12);
+    }
+    nav .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.15em; color: var(--red); text-decoration: none; }
+    nav .logo span { color: var(--charcoal); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); text-decoration: none; position: relative; padding-bottom: 2px; }
+    nav ul a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px; background: var(--red); transition: width 0.3s; }
+    nav ul a:hover::after { width: 100%; }
+    .cta-nav { background: var(--red); color: #fff !important; padding: 0.6rem 1.5rem; border-radius: 2px; font-size: 0.75rem !important; font-weight: 600 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important; text-decoration: none !important; transition: background 0.2s; white-space: nowrap; }
+    .cta-nav:hover { background: var(--red-dark) !important; }
+    .cta-nav::after { display: none !important; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 10rem 4rem 6rem 6rem; z-index: 2; }
+    .hero-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 8vw, 9rem); line-height: 0.88; letter-spacing: 0.02em; color: var(--charcoal); margin-bottom: 0.4rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+    .hero-title .red { color: var(--red); }
+    .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; color: var(--brown); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+    .hero-desc { font-size: 0.95rem; line-height: 1.85; color: #5a4a3a; max-width: 420px; margin-bottom: 2.5rem; font-weight: 300; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1s forwards; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--red); color: #fff; padding: 0.95rem 2rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s, transform 0.2s; }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; border: 1.5px solid var(--charcoal); color: var(--charcoal); padding: 0.95rem 2rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s; }
+    .btn-outline:hover { background: var(--charcoal); color: #fff; transform: translateY(-2px); }
+    .hero-right { position: relative; background: var(--charcoal); overflow: hidden; }
+    .hero-right::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 40%, rgba(192,57,43,0.3) 0%, transparent 65%), radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.15) 0%, transparent 50%); z-index: 1; }
+    .hero-bg-text { position: absolute; z-index: 0; font-family: 'Bebas Neue', sans-serif; font-size: 30vw; color: rgba(255,255,255,0.03); top: 50%; left: 50%; transform: translate(-50%,-50%) rotate(-15deg); white-space: nowrap; pointer-events: none; user-select: none; }
+    .hero-img-circle { position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(36vh, 260px); height: min(36vh, 260px); border-radius: 50%; overflow: hidden; border: 6px solid rgba(192,57,43,0.6); box-shadow: 0 0 0 2px rgba(201,168,76,0.4), 0 30px 80px rgba(0,0,0,0.5); opacity: 0; animation: heroIn 1s 0.5s forwards; }
+    .hero-img-circle img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-badge { position: absolute; bottom: 3rem; right: 3rem; z-index: 4; text-align: right; opacity: 0; animation: fadeUp 0.8s 1.2s forwards; }
+    .hero-badge .stars { color: var(--gold); font-size: 1.1rem; }
+    .hero-badge .rnum { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #fff; line-height: 1; }
+    .hero-badge .rlbl { font-size: 0.7rem; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* MARQUEE */
+    .marquee-wrap { background: var(--red); overflow: hidden; padding: 0.85rem 0; }
+    .marquee-track { display: flex; gap: 3rem; white-space: nowrap; animation: marquee 22s linear infinite; }
+    .marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.2em; color: #fff; flex-shrink: 0; }
+    .marquee-track .dot { color: rgba(255,255,255,0.5); }
+
+    /* SECTIONS */
+    section { padding: 7rem 6rem; }
+    .section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 5.5rem); line-height: 0.93; color: var(--charcoal); margin-bottom: 1rem; }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .about-visual { position: relative; height: 500px; }
+    .av-main { position: absolute; top: 0; left: 0; width: 73%; height: 80%; background: var(--charcoal); border-radius: 6px; overflow: hidden; }
+    .av-main img { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; }
+    .av-accent { position: absolute; bottom: 0; right: 0; width: 44%; height: 48%; background: var(--red); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; }
+    .av-accent .n { font-family: 'Bebas Neue', sans-serif; font-size: 3.8rem; color: #fff; line-height: 1; }
+    .av-accent .l { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-align: center; }
+    .about-text p { font-size: 0.97rem; line-height: 1.9; color: #5a4a3a; font-weight: 300; margin-bottom: 1.2rem; }
+    .facts { display: flex; gap: 1.5rem; margin-top: 2.5rem; }
+    .fact { flex: 1; background: var(--warm); padding: 1.5rem 1rem; text-align: center; border-radius: 4px; border-top: 3px solid var(--red); }
+    .fact .fn { font-family: 'Bebas Neue', sans-serif; font-size: 2.3rem; color: var(--red); line-height: 1; }
+    .fact .fl { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #5a4a3a; margin-top: 0.3rem; }
+
+    /* MENU */
+    #meniu { background: var(--charcoal); padding: 7rem 6rem; }
+    #meniu .section-title { color: var(--cream); }
+    .menu-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem; }
+    .tabs { display: flex; gap: 0.4rem; }
+    .tab { padding: 0.55rem 1.4rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; border: 1.5px solid rgba(255,255,255,0.12); border-radius: 2px; color: rgba(255,255,255,0.45); cursor: pointer; background: transparent; transition: all 0.2s; }
+    .tab.active, .tab:hover { border-color: var(--red); color: #fff; background: var(--red); }
+
+    .pizza-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 2px; background: rgba(255,255,255,0.04); }
+    .pcard { background: #1A1410; display: flex; flex-direction: column; overflow: hidden; position: relative; cursor: pointer; text-decoration: none; color: inherit; transition: background 0.25s; }
+    .pcard:hover { background: #231810; }
+    .pcard .pimg { width: 100%; aspect-ratio: 4/3; overflow: hidden; position: relative; }
+    .pcard .pimg img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+    .pcard:hover .pimg img { transform: scale(1.06); }
+    .popular-badge { position: absolute; top: 10px; left: 10px; background: var(--gold); color: #1A1410; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 2px; z-index: 2; }
+    .pcard .pimg .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,20,16,0.6) 0%, transparent 50%); }
+    .pcard .pbody { padding: 1.3rem 1.5rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
+    .pcard h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--cream); margin-bottom: 0.4rem; line-height: 1.2; }
+    .pcard .pfoot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 1rem; }
+    .pcard .price { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: var(--red); letter-spacing: 0.05em; }
+    .pcard .price small { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.3); font-weight: 300; }
+    .order-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--red); color: #fff; border: none; border-radius: 2px; padding: 0.55rem 1rem; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .order-btn:hover { background: var(--red-dark); }
+
+    .sos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .scard { background: #231810; border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 1.5rem 1.8rem; display: flex; justify-content: space-between; align-items: center; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+    .scard:hover { border-color: var(--red); background: #2A1F14; }
+    .scard .sname { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--cream); }
+    .scard .sarr { color: var(--red); font-size: 1rem; }
+
+    /* PROGRAM */
+    #program { background: var(--warm); }
+    .prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    table.sched { width: 100%; border-collapse: collapse; }
+    table.sched tr { border-bottom: 1px solid rgba(90,74,58,0.12); }
+    table.sched tr:last-child { border-bottom: none; }
+    table.sched td { padding: 1rem 0; font-size: 0.95rem; }
+    table.sched .day { font-weight: 500; color: var(--text); }
+    table.sched .time { color: var(--red); text-align: right; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
+    table.sched .closed { color: rgba(90,74,58,0.35); text-align: right; font-style: italic; }
+    table.sched tr.today .day { color: var(--red); font-weight: 700; }
+    table.sched tr.today .time { font-weight: 700; }
+    .contact-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+    .ci { display: flex; align-items: flex-start; gap: 1.2rem; }
+    .ci-icon { width: 42px; height: 42px; background: var(--red); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1rem; flex-shrink: 0; }
+    .ci-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(90,74,58,0.55); margin-bottom: 0.2rem; }
+    .ci-val { font-size: 1rem; color: var(--text); }
+    .ci-val a { color: var(--red); text-decoration: none; }
+    .ci-val a:hover { text-decoration: underline; }
+    .wolt-cta { margin-top: 2rem; background: var(--charcoal); border-radius: 6px; padding: 1.8rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .wolt-cta h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--cream); margin-bottom: 0.25rem; }
+    .wolt-cta p { font-size: 0.8rem; color: rgba(250,246,238,0.45); }
+    .wbtn { display: inline-block; background: #009DE0; color: #fff; padding: 0.75rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-decoration: none; transition: opacity 0.2s; white-space: nowrap; }
+    .wbtn:hover { opacity: 0.85; }
+
+    /* MAP */
+    #locatie { padding: 0; }
+    .map-wrap { display: grid; grid-template-columns: 1fr 2fr; }
+    .map-info { background: var(--red); padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; }
+    .map-info .section-label { color: rgba(255,255,255,0.65); }
+    .map-info .section-title { color: #fff; font-size: clamp(2.5rem, 4vw, 4rem); }
+    .map-info address { font-style: normal; font-size: 1rem; color: rgba(255,255,255,0.85); line-height: 1.9; margin-top: 1.5rem; font-weight: 300; }
+    .map-info .dir-link { display: inline-block; margin-top: 1.5rem; color: #fff; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; border-bottom: 1.5px solid rgba(255,255,255,0.45); padding-bottom: 2px; transition: border-color 0.2s; }
+    .map-info .dir-link:hover { border-color: #fff; }
+    .map-frame { height: 460px; }
+    .map-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); padding: 4rem 6rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; }
+    .foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 0.15em; color: var(--red); display: block; margin-bottom: 1rem; }
+    .foot-logo span { color: var(--cream); }
+    footer p { font-size: 0.86rem; color: rgba(250,246,238,0.4); line-height: 1.8; font-weight: 300; }
+    footer h5 { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 0.7rem; }
+    footer ul a { font-size: 0.88rem; color: rgba(250,246,238,0.5); text-decoration: none; transition: color 0.2s; }
+    footer ul a:hover { color: var(--cream); }
+    .foot-bar { background: #0E0B08; padding: 1.2rem 6rem; display: flex; justify-content: space-between; align-items: center; }
+    .foot-bar p { font-size: 0.76rem; color: rgba(250,246,238,0.22); }
+    .socials { display: flex; gap: 0.8rem; }
+    .socials a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.35); text-decoration: none; font-size: 0.8rem; transition: border-color 0.2s, color 0.2s; }
+    .socials a:hover { border-color: var(--red); color: var(--red); }
+
+    /* WHATSAPP FLOAT */
+    .wa-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 0.7rem;
+    }
+    .wa-label {
+      background: var(--charcoal); color: #fff; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5rem 1rem;
+      border-radius: 20px; white-space: nowrap; opacity: 0; transform: translateX(10px);
+      transition: opacity 0.3s, transform 0.3s; pointer-events: none;
+    }
+    .wa-float:hover .wa-label { opacity: 1; transform: translateX(0); }
+    .wa-btn {
+      width: 58px; height: 58px; border-radius: 50%; background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      transition: transform 0.2s, box-shadow 0.2s; animation: waPulse 2.5s infinite;
+    }
+    .wa-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.6); }
+    .wa-btn svg { width: 30px; height: 30px; }
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
+      50% { box-shadow: 0 4px 30px rgba(37,211,102,0.75), 0 0 0 8px rgba(37,211,102,0.12); }
+    }
+
+    /* ORDER MODAL */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(15,10,8,0.82); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--cream); border-radius: 8px; width: 100%; max-width: 620px;
+      max-height: 90vh; overflow-y: auto; position: relative;
+      animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    @keyframes modalIn { from { opacity:0; transform:translateY(30px) scale(0.96); } to { opacity:1; transform:none; } }
+    .modal-header {
+      background: var(--charcoal); padding: 2rem 2.5rem 1.5rem;
+      border-radius: 8px 8px 0 0; position: sticky; top: 0; z-index: 2;
+    }
+    .modal-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--cream); letter-spacing: 0.05em; }
+    .modal-header p { font-size: 0.82rem; color: rgba(250,246,238,0.45); margin-top: 0.2rem; }
+    .modal-close {
+      position: absolute; top: 1.2rem; right: 1.5rem;
+      background: rgba(255,255,255,0.08); border: none; color: rgba(255,255,255,0.6);
+      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-close:hover { background: var(--red); color: #fff; }
+    .modal-body { padding: 2rem 2.5rem; }
+
+    /* CART */
+    .cart-section { margin-bottom: 2rem; }
+    .cart-section h3 { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .cart-items { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cart-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      background: var(--warm); border-radius: 4px; padding: 0.8rem 1rem;
+      border: 1.5px solid transparent; transition: border-color 0.2s;
+    }
+    .cart-item.selected { border-color: var(--red); background: #fdf0ee; }
+    .cart-item label { display: flex; align-items: center; gap: 0.8rem; cursor: pointer; flex: 1; font-size: 0.9rem; color: var(--text); font-weight: 400; }
+    .cart-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--red); cursor: pointer; flex-shrink: 0; }
+    .cart-item .item-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--red); margin-left: auto; }
+    .qty-ctrl { display: flex; align-items: center; gap: 0.4rem; }
+    .qty-ctrl button {
+      width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--red);
+      background: transparent; color: var(--red); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; font-weight: 700;
+      transition: background 0.15s, color 0.15s;
+    }
+    .qty-ctrl button:hover { background: var(--red); color: #fff; }
+    .qty-ctrl span { font-size: 0.9rem; font-weight: 600; min-width: 20px; text-align: center; }
+
+    /* FORM FIELDS */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-group label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(42,31,20,0.55); }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 0.75rem 1rem; border: 1.5px solid rgba(42,31,20,0.15); border-radius: 4px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.92rem; color: var(--text);
+      background: #fff; transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .type-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .type-btn {
+      flex: 1; padding: 0.75rem; border: 1.5px solid rgba(42,31,20,0.15); border-radius: 4px;
+      background: #fff; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      color: rgba(42,31,20,0.45); transition: all 0.2s;
+    }
+    .type-btn.active { border-color: var(--red); background: var(--red); color: #fff; }
+    .wolt-type-btn { background: #009DE0 !important; border-color: #009DE0 !important; color: #fff !important; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; line-height: 1.3; }
+    .wolt-type-btn:hover { background: #0081ba !important; border-color: #0081ba !important; }
+
+    .order-total {
+      background: var(--charcoal); border-radius: 6px; padding: 1.2rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
+    }
+    .order-total span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(250,246,238,0.5); }
+    .order-total .total-price { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--red); }
+
+    .submit-btns { display: flex; flex-direction: column; gap: 0.8rem; }
+    .btn-whatsapp {
+      display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+      background: #25D366; color: #fff; padding: 1rem; border-radius: 4px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border: none;
+      transition: background 0.2s; text-decoration: none;
+    }
+    .btn-whatsapp:hover { background: #1da851; }
+    .btn-call {
+      display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+      background: transparent; color: var(--text); padding: 0.85rem; border-radius: 4px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      border: 1.5px solid rgba(42,31,20,0.2); transition: all 0.2s; text-decoration: none;
+    }
+    .btn-call:hover { border-color: var(--text); background: var(--text); color: #fff; }
+
+    /* MODAL TABS */
+    .modal-tabs { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .modal-tab {
+      flex: 1; padding: 0.6rem 0.5rem; border: 1.5px solid rgba(42,31,20,0.15); border-radius: 4px;
+      background: #fff; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      color: rgba(42,31,20,0.45); transition: all 0.2s;
+    }
+    .modal-tab.active { border-color: var(--red); background: var(--red); color: #fff; }
+    .modal-tab:hover:not(.active) { border-color: rgba(192,57,43,0.4); color: var(--red); }
+
+    /* CART ITEM WITH IMAGE */
+    .cart-item-img { padding: 0.6rem 1rem 0.6rem 0.6rem !important; align-items: center; }
+    .cart-item-thumb {
+      width: 54px; height: 54px; border-radius: 6px; object-fit: cover; flex-shrink: 0;
+      border: 1.5px solid rgba(42,31,20,0.08);
+    }
+    .ci-name { font-size: 0.88rem; font-weight: 400; color: var(--text); line-height: 1.3; }
+
+    /* SUMMARY */
+    .summary-line { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(42,31,20,0.07); font-size: 0.88rem; }
+    .summary-line:last-child { border-bottom: none; }
+    .summary-line span:last-child { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--red); }
+
+    /* NAV order btn */
+    .cta-nav-order {
+      background: #25D366 !important; color: #fff !important; padding: 0.6rem 1.5rem;
+      border-radius: 2px; font-size: 0.75rem !important; font-weight: 600 !important;
+      letter-spacing: 0.12em !important; text-transform: uppercase !important;
+      text-decoration: none !important; transition: background 0.2s; white-space: nowrap;
+      cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;
+      margin-right: 0.5rem;
+    }
+    .cta-nav-order:hover { background: #1da851 !important; }
+    .nav-btns { display: flex; gap: 0.5rem; align-items: center; }
+
+    @media(max-width:900px) {
+      .modal-body { padding: 1.5rem; }
+      .modal-header { padding: 1.5rem 1.5rem 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes heroIn { from { opacity:0; transform:translate(-50%,-50%) scale(0.85); } to { opacity:1; transform:translate(-50%,-50%) scale(1); } }
+    @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav { padding:1rem 1.5rem; }
+      nav ul { display:none; }
+      .hero { grid-template-columns:1fr; }
+      .hero-right { height:300px; }
+      .hero-left { padding:7rem 2rem 3rem; }
+      section { padding:5rem 2rem; }
+      #meniu { padding:5rem 2rem; }
+      .about-grid { grid-template-columns:1fr; gap:3rem; }
+      .about-visual { height:280px; }
+      .prog-grid { grid-template-columns:1fr; gap:3rem; }
+      .map-wrap { grid-template-columns:1fr; }
+      footer { grid-template-columns:1fr; gap:2rem; padding:3rem 2rem; }
+      .foot-bar { padding:1rem 2rem; flex-direction:column; gap:1rem; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">SIO<span>PIZZA</span></a>
+  <ul>
+    <li><a href="#despre">Despre</a></li>
+    <li><a href="#meniu">Meniu</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#locatie">Locație</a></li>
+  </ul>
+  <div class="nav-btns">
+    <button onclick="openOrderModal()" class="cta-nav-order">🍕 Comandă Direct</button>
+    <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="cta-nav">🛵 Wolt</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="acasa">
+  <div class="hero-left">
+    <p class="hero-eyebrow">✦ Autentic Italian · Sibiu, România</p>
+    <h1 class="hero-title"><span class="red">PIZZA</span><br>ARTIZANALĂ</h1>
+    <p class="hero-subtitle">Gust italian, suflet românesc</p>
+    <p class="hero-desc">Bine ați venit la Pizzeria SIO — un loc unde pasiunea pentru pizza autentică italiană se întâlnește cu căldura Sibiului. Ingrediente proaspete, aluat pregătit zilnic, combinații clasice și speciale pentru fiecare gust.</p>
+    <div class="hero-btns">
+      <button onclick="openOrderModal()" class="btn-primary">🍕 Comandă Direct</button>
+      <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="btn-outline">🛵 Comandă cu livrare pe<br><strong style="font-size:1.1em;letter-spacing:0.15em">WOLT</strong></a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-text">SIO</div>
+    <div class="hero-img-circle">
+      <img src="https://imageproxy.wolt.com/assets/681c9e42a0d16f30b4d622dc" alt="Pizzeria SIO" />
+    </div>
+    <div class="hero-badge">
+      <div class="stars">★★★★★</div>
+      <div class="rnum">9.4</div>
+      <div class="rlbl">Rating Wolt</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>PIZZA ARTIZANALĂ</span><span class="dot"> ✦ </span>
+    <span>INGREDIENTE PROASPETE</span><span class="dot"> ✦ </span>
+    <span>LIVRARE ÎN SIBIU</span><span class="dot"> ✦ </span>
+    <span>BUCĂTĂRIE ITALIANĂ</span><span class="dot"> ✦ </span>
+    <span>RATING 9.4 PE WOLT</span><span class="dot"> ✦ </span>
+    <span>PIZZA ARTIZANALĂ</span><span class="dot"> ✦ </span>
+    <span>INGREDIENTE PROASPETE</span><span class="dot"> ✦ </span>
+    <span>LIVRARE ÎN SIBIU</span><span class="dot"> ✦ </span>
+    <span>BUCĂTĂRIE ITALIANĂ</span><span class="dot"> ✦ </span>
+    <span>RATING 9.4 PE WOLT</span><span class="dot"> ✦ </span>
+  </div>
+</div>
+
+<!-- DESPRE -->
+<section id="despre">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="av-main">
+        <img src="https://imageproxy.wolt.com/assets/681c9e42a0d16f30b4d622db" alt="Pizzeria SIO interior" />
+      </div>
+      <div class="av-accent">
+        <span class="n">9.4</span>
+        <span class="l">Rating<br>Wolt</span>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <p class="section-label">Povestea Noastră</p>
+      <h2 class="section-title">TRADIȚIE &amp;<br>PASIUNE</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-style:italic;color:var(--brown);margin-bottom:1.5rem">Din inimă pentru Sibiu</p>
+      <p>Pizzeria SIO s-a născut din dragostea pentru pizza adevărată — pregătită cu răbdare, cu ingrediente alese cu grijă și cu respectul față de rețetele clasice italiene.</p>
+      <p>Folosim aluat preparat zilnic, sosuri tomato autentice și o selecție atentă de brânzeturi, carne și legume proaspete pentru a crea experiențe culinare memorabile în fiecare zi.</p>
+      <div class="facts">
+        <div class="fact"><div class="fn">19+</div><div class="fl">Sortimente<br>Pizza</div></div>
+        <div class="fact"><div class="fn">9.4</div><div class="fl">Rating<br>Wolt</div></div>
+        <div class="fact"><div class="fn">6 zile</div><div class="fl">Pe<br>Săptămână</div></div>
+      </div>
+      <div style="margin-top:2.5rem">
+        <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="btn-primary">🛵 Comandă cu livrare pe<br><strong style="font-size:1.1em;letter-spacing:0.15em">WOLT</strong></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENIU -->
+<section id="meniu">
+  <div class="menu-head reveal">
+    <div>
+      <p class="section-label">Gastronomie Italiană</p>
+      <h2 class="section-title" style="color:var(--cream)">MENIUL<br>NOSTRU</h2>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('pizza',this)">Pizza (19)</button>
+      <button class="tab" onclick="showTab('family',this)">Pizza Family</button>
+      <button class="tab" onclick="showTab('sosuri',this)">Sosuri</button>
+    </div>
+  </div>
+
+  <!-- PIZZA TAB -->
+  <div id="tab-pizza">
+    <div class="pizza-grid">
+      <div class="pcard" onclick="addToCartAndOpen('pizza',0)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3195?w=600" alt="Pizza Quatro Carni" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Carni</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',1)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319b?w=600" alt="Pizza Margherita" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Margherita</h3><div class="pfoot"><span class="price">35 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',2)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a0?w=600" alt="Pizza Quatro Formaggi &amp; Pepperoni" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Formaggi &amp; Pepperoni</h3><div class="pfoot"><span class="price">42 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',3)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3198?w=600" alt="Pizza Vegetariană" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Vegetariană</h3><div class="pfoot"><span class="price">39 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',4)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319a?w=600" alt="Focaccia" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Focaccia</h3><div class="pfoot"><span class="price">28 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',5)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3199?w=600" alt="Pizza Speciality SIO" loading="lazy"/><div class="overlay"></div><span class="popular-badge">⭐ Specialitate</span></div>
+        <div class="pbody"><h3>Pizza Speciality SIO</h3><div class="pfoot"><span class="price">42 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',6)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319f?w=600" alt="Pizza Quatro Stagioni" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Stagioni</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',7)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/68a71db310ec70798b7711a2?w=600" alt="Pizza Diavola" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Diavola</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',8)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3197?w=600" alt="Pizza Quatro Formaggi" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Formaggi</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',9)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a4?w=600" alt="Pizza Gorgonzola Crudo" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Gorgonzola Crudo</h3><div class="pfoot"><span class="price">42 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',10)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a5?w=600" alt="Pizza Prosciutto" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Prosciutto</h3><div class="pfoot"><span class="price">38 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',11)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319c?w=600" alt="Pizza Prosciutto Crudo" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Prosciutto Crudo</h3><div class="pfoot"><span class="price">42 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',12)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319d?w=600" alt="Pizza Primavera" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Primavera</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',13)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/68b6d59a0ad00e6220d5f3e8?w=600" alt="Pizza Prosciutto Funghi" loading="lazy"/><div class="overlay"></div><span class="popular-badge">🔥 Popular</span></div>
+        <div class="pbody"><h3>Pizza Prosciutto Funghi</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',14)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/68a71d6810ec70798b77118d?w=600" alt="Pizza Funghi" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Funghi</h3><div class="pfoot"><span class="price">38 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',15)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3196?w=600" alt="Focaccia Parmezan" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Focaccia Parmezan</h3><div class="pfoot"><span class="price">32 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',16)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a1?w=600" alt="Pizza Salami" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Salami</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',17)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc89f6bf5d259a9c31ab?w=600" alt="Pizza Capricciosa" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Capricciosa</h3><div class="pfoot"><span class="price">42 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('pizza',18)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc89f6bf5d259a9c31af?w=600" alt="Pizza Tonno" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Tonno</h3><div class="pfoot"><span class="price">40 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAMILY TAB -->
+  <div id="tab-family" style="display:none">
+    <div class="pizza-grid">
+      <div class="pcard" onclick="addToCartAndOpen('family',0)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc89f6bf5d259a9c31ab?w=600" alt="Pizza Capricciosa Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Capricciosa</h3><div class="pfoot"><span class="price">85 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',1)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3199?w=600" alt="Pizza Speciality SIO Family" loading="lazy"/><div class="overlay"></div><span class="popular-badge">⭐ Specialitate</span></div>
+        <div class="pbody"><h3>Pizza Speciality SIO</h3><div class="pfoot"><span class="price">90 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',2)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319d?w=600" alt="Pizza Primavera Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Primavera</h3><div class="pfoot"><span class="price">85 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',3)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a4?w=600" alt="Pizza Gorgonzola Crudo Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Gorgonzola Crudo</h3><div class="pfoot"><span class="price">90 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',4)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3195?w=600" alt="Pizza Quatro Carni Family" loading="lazy"/><div class="overlay"></div><span class="popular-badge">🔥 Popular</span></div>
+        <div class="pbody"><h3>Pizza Quatro Carni</h3><div class="pfoot"><span class="price">88 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',5)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319b?w=600" alt="Pizza Margherita Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Margherita</h3><div class="pfoot"><span class="price">75 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',6)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a1?w=600" alt="Pizza Salami Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Salami</h3><div class="pfoot"><span class="price">80 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',7)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a5?w=600" alt="Pizza Prosciutto Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Prosciutto</h3><div class="pfoot"><span class="price">80 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',8)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319f?w=600" alt="Pizza Quatro Stagioni Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Stagioni</h3><div class="pfoot"><span class="price">85 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',9)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/68a71d6810ec70798b77118d?w=600" alt="Pizza Funghi Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Funghi</h3><div class="pfoot"><span class="price">80 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',10)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/68a71db310ec70798b7711a2?w=600" alt="Pizza Diavola Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Diavola</h3><div class="pfoot"><span class="price">85 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',11)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc89f6bf5d259a9c31af?w=600" alt="Pizza Tonno Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Tonno</h3><div class="pfoot"><span class="price">80 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',12)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3198?w=600" alt="Pizza Vegetariană Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Vegetariană</h3><div class="pfoot"><span class="price">80 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',13)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c31a0?w=600" alt="Pizza Quatro Formaggi&amp;Pepperoni Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Formaggi &amp; Pepperoni</h3><div class="pfoot"><span class="price">88 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',14)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c3197?w=600" alt="Pizza Quatro Formaggi Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Quatro Formaggi</h3><div class="pfoot"><span class="price">85 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',15)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/68b6d59a0ad00e6220d5f3e8?w=600" alt="Pizza Prosciutto Funghi Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Prosciutto Funghi</h3><div class="pfoot"><span class="price">85 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('family',16)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc87f6bf5d259a9c319c?w=600" alt="Pizza Prosciutto Crudo Family" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Pizza Prosciutto Crudo</h3><div class="pfoot"><span class="price">90 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOSURI TAB -->
+  <div id="tab-sosuri" style="display:none">
+    <div class="pizza-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+      <div class="pcard" onclick="addToCartAndOpen('sosuri',0)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc8af6bf5d259a9c31b6?w=600" alt="Ketchup Picant" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Ketchup Picant</h3><div class="pfoot"><span class="price">4 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('sosuri',1)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc8af6bf5d259a9c31b6?w=600" alt="Ketchup Dulce" loading="lazy"/><div class="overlay"></div></div>
+        <div class="pbody"><h3>Ketchup Dulce</h3><div class="pfoot"><span class="price">4 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+      <div class="pcard" onclick="addToCartAndOpen('sosuri',2)">
+        <div class="pimg"><img src="https://imageproxy.wolt.com/assets/6819fc8af6bf5d259a9c31b6?w=600" alt="Sos de Usturoi" loading="lazy"/><div class="overlay"></div><span class="popular-badge">🔥 Popular</span></div>
+        <div class="pbody"><h3>Sos de Usturoi</h3><div class="pfoot"><span class="price">4 <small>RON</small></span><span class="order-btn">+ Comandă</span></div></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- PROGRAM & CONTACT -->
+<section id="program">
+  <div class="prog-grid">
+    <div class="reveal">
+      <p class="section-label">Când Ne Găsești</p>
+      <h2 class="section-title">PROGRAM<br>DE LUCRU</h2>
+      <table class="sched">
+        <tr id="day-1"><td class="day">Luni</td><td class="time">16:00 – 20:30</td></tr>
+        <tr id="day-2"><td class="day">Marți</td><td class="time">12:30 – 20:30</td></tr>
+        <tr id="day-3"><td class="day">Miercuri</td><td class="time">12:30 – 20:30</td></tr>
+        <tr id="day-4"><td class="day">Joi</td><td class="time">12:30 – 20:30</td></tr>
+        <tr id="day-5"><td class="day">Vineri</td><td class="time">12:30 – 20:30</td></tr>
+        <tr id="day-6"><td class="day">Sâmbătă</td><td class="time">12:30 – 20:30</td></tr>
+        <tr id="day-0"><td class="day">Duminică</td><td class="closed">Închis</td></tr>
+      </table>
+    </div>
+    <div class="reveal">
+      <p class="section-label">Contactați-ne</p>
+      <h2 class="section-title">COMANDĂ<br>SAU SUNĂ</h2>
+      <div class="contact-stack">
+        <div class="ci">
+          <div class="ci-icon">📞</div>
+          <div><div class="ci-label">Telefon</div><div class="ci-val"><a href="tel:+40748317785">+40 748 317 785</a></div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-icon">📍</div>
+          <div><div class="ci-label">Adresă</div><div class="ci-val">Calea Șurii Mici fn, Bloc R7 Parter<br>557270 Sibiu, România</div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-icon">🍕</div>
+          <div><div class="ci-label">Bucătărie</div><div class="ci-val">Italiană — Pizza, Focaccia</div></div>
+        </div>
+      </div>
+      <div class="wolt-cta">
+        <div>
+          <h4>Comandă prin Wolt</h4>
+          <p>Livrare rapidă · Rating 9.4 ⭐ · Plată online sau cash</p>
+        </div>
+        <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="wbtn">Comandă Acum</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIE -->
+<div id="locatie" class="map-wrap">
+  <div class="map-info">
+    <p class="section-label">Vino La Noi</p>
+    <h2 class="section-title">GĂSEȘTE-NE<br>UȘOR</h2>
+    <address>Calea Șurii Mici fn<br>Bloc R7, Parter<br>557270 Sibiu<br>România</address>
+    <a href="https://maps.google.com/?q=45.80659143,24.10657485" target="_blank" class="dir-link">→ Deschide în Google Maps</a>
+    <div style="margin-top:2rem">
+      <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="wbtn">🛵 Comandă cu Livrare</a>
+    </div>
+  </div>
+  <div class="map-frame">
+    <iframe src="https://maps.google.com/maps?q=45.80659143,24.10657485&z=16&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <span class="foot-logo">SIO<span>PIZZA</span></span>
+    <p>Pizzerie italiană autentică în inima Sibiului. Pizza artizanală cu ingrediente proaspete, pregătită cu pasiune în fiecare zi.</p>
+    <div style="margin-top:1.5rem">
+      <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="wbtn">🛵 Comandă cu livrare pe<br><strong style="font-size:1.1em;letter-spacing:0.15em">WOLT</strong></a>
+    </div>
+  </div>
+  <div>
+    <h5>Link-uri Rapide</h5>
+    <ul>
+      <li><a href="#despre">Despre Noi</a></li>
+      <li><a href="#meniu">Meniu</a></li>
+      <li><a href="#program">Program</a></li>
+      <li><a href="#locatie">Locație</a></li>
+      <li><a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank">Comandă pe Wolt</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>Contact</h5>
+    <ul>
+      <li><a href="tel:+40748317785">+40 748 317 785</a></li>
+      <li><a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank">Wolt Delivery</a></li>
+      <li><a href="https://www.facebook.com/p/Pizzeria-SIO-100089905582597/" target="_blank">Facebook</a></li>
+      <li><a href="https://maps.google.com/?q=45.80659143,24.10657485" target="_blank">Google Maps</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="foot-bar">
+  <p>© 2026 Pizzeria SIO Sibiu. Toate drepturile rezervate.</p>
+  <div class="socials">
+    <a href="https://www.facebook.com/p/Pizzeria-SIO-100089905582597/" target="_blank" title="Facebook">f</a>
+    <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" title="Wolt">W</a>
+    <a href="https://maps.google.com/?q=45.80659143,24.10657485" target="_blank" title="Google Maps">⊕</a>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<div class="wa-float">
+  <span class="wa-label">Comandă pe WhatsApp</span>
+  <a class="wa-btn" href="https://wa.me/40748317785?text=Buna%20ziua!%20Doresc%20sa%20fac%20o%20comanda." target="_blank" title="Comandă pe WhatsApp">
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.268 2 2 8.268 2 16c0 2.52.664 4.882 1.826 6.924L2 30l7.29-1.8A13.928 13.928 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="#fff"/>
+      <path d="M22.45 19.47c-.31-.155-1.84-.907-2.125-.997-.285-.09-.493-.14-.7.14-.21.28-.806.997-.99 1.202-.182.206-.366.23-.678.077-.31-.155-1.312-.484-2.5-1.545-.924-.825-1.548-1.843-1.73-2.153-.18-.31-.02-.477.136-.631.14-.14.31-.363.465-.545.155-.18.207-.31.31-.516.104-.207.052-.388-.026-.545-.077-.155-.7-1.686-.958-2.308-.253-.607-.51-.524-.7-.534l-.596-.01c-.207 0-.545.077-.83.388-.285.31-1.087 1.062-1.087 2.59s1.113 3.007 1.267 3.213c.155.207 2.19 3.345 5.306 4.69.742.32 1.32.51 1.771.653.745.237 1.422.204 1.958.124.597-.09 1.84-.753 2.1-1.48.26-.73.26-1.355.182-1.484-.077-.13-.285-.207-.597-.362z" fill="#25D366"/>
+    </svg>
+  </a>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+      <h2>COMANDĂ DIRECT</h2>
+      <p>Fără comision · Plată la livrare sau ridicare</p>
+    </div>
+    <div class="modal-body">
+
+      <!-- TIPUL COMENZII -->
+      <div class="cart-section">
+        <h3>Cum dorești comanda?</h3>
+        <div class="type-toggle">
+          <a href="https://wolt.com/en/rou/sibiu/restaurant/pizzeria-sio-67dd646c58b9333668d2de64" target="_blank" class="type-btn wolt-type-btn">🛵 Comandă cu livrare pe<br><strong style="font-size:1.1em;letter-spacing:0.15em">WOLT</strong></a>
+          <button class="type-btn active" id="btn-pickup" onclick="setType('pickup')">🏃 Comandă cu ridicare personală pe site</button>
+        </div>
+      </div>
+
+      <!-- TABURI MENIU -->
+      <div class="cart-section">
+        <div class="modal-tabs">
+          <button class="modal-tab active" id="mtab-pizza" onclick="switchMenuTab('pizza')">🍕 Pizza</button>
+          <button class="modal-tab" id="mtab-family" onclick="switchMenuTab('family')">👨‍👩‍👧 Family</button>
+          <button class="modal-tab" id="mtab-sosuri" onclick="switchMenuTab('sosuri')">🫙 Sosuri</button>
+        </div>
+        <div id="menu-tab-pizza" class="menu-tab-content">
+          <div class="cart-items" id="cartItems-pizza"></div>
+        </div>
+        <div id="menu-tab-family" class="menu-tab-content" style="display:none">
+          <div class="cart-items" id="cartItems-family"></div>
+        </div>
+        <div id="menu-tab-sosuri" class="menu-tab-content" style="display:none">
+          <div class="cart-items" id="cartItems-sosuri"></div>
+        </div>
+      </div>
+
+      <!-- COȘ SUMAR -->
+      <div class="cart-section" id="cart-summary-section" style="display:none">
+        <h3>Coșul tău</h3>
+        <div id="cart-summary"></div>
+      </div>
+
+      <!-- DATE PERSONALE -->
+      <div class="cart-section">
+        <h3>Date contact</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nume *</label>
+            <input type="text" id="f-name" placeholder="Ion Popescu">
+          </div>
+          <div class="form-group">
+            <label>Telefon *</label>
+            <input type="tel" id="f-phone" placeholder="+40 7xx xxx xxx">
+          </div>
+        </div>
+        <div class="form-group" id="addr-group">
+          <label>Adresă livrare *</label>
+          <input type="text" id="f-addr" placeholder="Str. Exemplu nr. 5, Sibiu">
+        </div>
+        <div class="form-group">
+          <label>Mențiuni (opțional)</label>
+          <textarea id="f-notes" placeholder="Ex: fără ceapă, etaj 3, interfon 12..."></textarea>
+        </div>
+      </div>
+
+      <!-- TOTAL -->
+      <div class="order-total">
+        <span>Total estimat</span>
+        <span class="total-price" id="totalPrice">0 RON</span>
+      </div>
+
+      <!-- TRIMITE -->
+      <div class="submit-btns">
+        <button class="btn-whatsapp" onclick="sendWhatsApp()">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.52.664 4.882 1.826 6.924L2 30l7.29-1.8A13.928 13.928 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="rgba(255,255,255,0.3)"/><path d="M22.45 19.47c-.31-.155-1.84-.907-2.125-.997-.285-.09-.493-.14-.7.14-.21.28-.806.997-.99 1.202-.182.206-.366.23-.678.077-.31-.155-1.312-.484-2.5-1.545-.924-.825-1.548-1.843-1.73-2.153-.18-.31-.02-.477.136-.631.14-.14.31-.363.465-.545.155-.18.207-.31.31-.516.104-.207.052-.388-.026-.545-.077-.155-.7-1.686-.958-2.308-.253-.607-.51-.524-.7-.534l-.596-.01c-.207 0-.545.077-.83.388-.285.31-1.087 1.062-1.087 2.59s1.113 3.007 1.267 3.213c.155.207 2.19 3.345 5.306 4.69.742.32 1.32.51 1.771.653.745.237 1.422.204 1.958.124.597-.09 1.84-.753 2.1-1.48.26-.73.26-1.355.182-1.484-.077-.13-.285-.207-.597-.362z" fill="#fff"/></svg>
+          Trimite comanda pe WhatsApp
+        </button>
+        <a class="btn-call" href="tel:+40748317785">
+          📞 Sună direct — +40 748 317 785
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ──────────────────────────────
+  //  MENU DATA
+  // ──────────────────────────────
+  const MENUS = {
+    pizza: [
+      { name: 'Pizza Quatro Carni',                     price: 40 },
+      { name: 'Pizza Margherita',                       price: 35 },
+      { name: 'Pizza Quatro Formaggi & Pepperoni',      price: 42 },
+      { name: 'Pizza Vegetariană',                       price: 39 },
+      { name: 'Focaccia',                               price: 28 },
+      { name: 'Pizza Speciality SIO',                   price: 42 },
+      { name: 'Pizza Quatro Stagioni',                  price: 40 },
+      { name: 'Pizza Diavola',                          price: 40 },
+      { name: 'Pizza Quatro Formaggi',                  price: 40 },
+      { name: 'Pizza Gorgonzola Crudo',                 price: 42 },
+      { name: 'Pizza Prosciutto',                       price: 38 },
+      { name: 'Pizza Prosciutto Crudo',                 price: 42 },
+      { name: 'Pizza Primavera',                        price: 40 },
+      { name: 'Pizza Prosciutto Funghi',                price: 40, popular: true },
+      { name: 'Pizza Funghi',                           price: 38 },
+      { name: 'Focaccia Parmezan',                      price: 32 },
+      { name: 'Pizza Salami',                           price: 40 },
+      { name: 'Pizza Capricciosa',                      price: 42 },
+      { name: 'Pizza Tonno',                            price: 40 },
+    ],
+    family: [
+      { name: 'Pizza Capricciosa Family',               price: 85 },
+      { name: 'Pizza Speciality SIO Family',            price: 90 },
+      { name: 'Pizza Primavera Family',                 price: 85 },
+      { name: 'Pizza Gorgonzola Crudo Family',          price: 90 },
+      { name: 'Pizza Quatro Carni Family',              price: 88, popular: true },
+      { name: 'Pizza Margherita Family',                price: 75 },
+      { name: 'Pizza Salami Family',                    price: 80 },
+      { name: 'Pizza Prosciutto Family',                price: 80 },
+      { name: 'Pizza Quatro Stagioni Family',           price: 85 },
+      { name: 'Pizza Funghi Family',                    price: 80 },
+      { name: 'Pizza Diavola Family',                   price: 85 },
+      { name: 'Pizza Tonno Family',                     price: 80 },
+      { name: 'Pizza Vegetariană Family',                price: 80 },
+      { name: 'Pizza Quatro Formaggi&Pepperoni Family', price: 88 },
+      { name: 'Pizza Quatro Formaggi Family',           price: 85 },
+      { name: 'Pizza Prosciutto Funghi Family',         price: 85 },
+      { name: 'Pizza Prosciutto Crudo Family',          price: 90 },
+    ],
+    sosuri: [
+      { name: 'Ketchup Picant',   price: 4 },
+      { name: 'Ketchup Dulce',    price: 4 },
+      { name: 'Sos de Usturoi',   price: 4, popular: true },
+    ]
+  };
+
+  // Global quantities keyed by "tab-index"
+  let quantities = {};
+  let orderType = 'pickup';
+  let activeMenuTab = 'pizza';
+
+  function getKey(tab, i) { return tab + '-' + i; }
+
+  function buildMenuTab(tab) {
+    const items = MENUS[tab];
+    const container = document.getElementById('cartItems-' + tab);
+    container.innerHTML = '';
+    items.forEach((item, i) => {
+      const key = getKey(tab, i);
+      quantities[key] = quantities[key] || 0;
+      const selected = quantities[key] > 0;
+      const div = document.createElement('div');
+      div.className = 'cart-item' + (selected ? ' selected' : '');
+      div.id = 'ci-' + key;
+      div.innerHTML = `
+        <label style="flex:1;min-width:0;display:flex;align-items:center;gap:0.8rem;cursor:pointer">
+          <input type="checkbox" onchange="toggleItem('${tab}',${i},this)" ${selected ? 'checked' : ''}>
+          <span class="ci-name">${item.name}${item.popular ? ' 🔥' : ''}</span>
+        </label>
+        <div class="qty-ctrl" id="qty-${key}" style="${selected ? '' : 'display:none'}">
+          <button onclick="changeQty('${tab}',${i},-1)">−</button>
+          <span id="q-${key}">${quantities[key]}</span>
+          <button onclick="changeQty('${tab}',${i},1)">+</button>
+        </div>
+        <span class="item-price">${item.price} RON</span>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function switchMenuTab(tab) {
+    activeMenuTab = tab;
+    ['pizza','family','sosuri'].forEach(t => {
+      document.getElementById('menu-tab-' + t).style.display = (t === tab) ? 'block' : 'none';
+      document.getElementById('mtab-' + t).classList.toggle('active', t === tab);
+    });
+  }
+
+  function toggleItem(tab, i, cb) {
+    const key = getKey(tab, i);
+    quantities[key] = cb.checked ? 1 : 0;
+    const qtyEl = document.getElementById('qty-' + key);
+    const ciEl  = document.getElementById('ci-'  + key);
+    qtyEl.style.display = cb.checked ? 'flex' : 'none';
+    document.getElementById('q-' + key).textContent = quantities[key];
+    ciEl.classList.toggle('selected', cb.checked);
+    updateTotal();
+    updateSummary();
+  }
+
+  function changeQty(tab, i, delta) {
+    const key = getKey(tab, i);
+    quantities[key] = Math.max(0, (quantities[key] || 0) + delta);
+    document.getElementById('q-' + key).textContent = quantities[key];
+    const cb = document.querySelector(`#ci-${key} input[type=checkbox]`);
+    if (quantities[key] === 0) {
+      cb.checked = false;
+      document.getElementById('qty-' + key).style.display = 'none';
+      document.getElementById('ci-'  + key).classList.remove('selected');
+    }
+    updateTotal();
+    updateSummary();
+  }
+
+  function updateTotal() {
+    let total = 0;
+    Object.keys(quantities).forEach(key => {
+      const [tab, i] = key.split('-');
+      if (MENUS[tab] && MENUS[tab][i]) total += quantities[key] * MENUS[tab][i].price;
+    });
+    document.getElementById('totalPrice').textContent = total + ' RON';
+  }
+
+  function updateSummary() {
+    const summaryEl = document.getElementById('cart-summary');
+    const sectionEl = document.getElementById('cart-summary-section');
+    let lines = [];
+    Object.keys(quantities).forEach(key => {
+      if (quantities[key] > 0) {
+        const [tab, i] = key.split('-');
+        if (MENUS[tab] && MENUS[tab][i]) {
+          const item = MENUS[tab][i];
+          lines.push(`<div class="summary-line"><span>${quantities[key]}× ${item.name}</span><span>${quantities[key]*item.price} RON</span></div>`);
+        }
+      }
+    });
+    if (lines.length > 0) {
+      summaryEl.innerHTML = lines.join('');
+      sectionEl.style.display = 'block';
+    } else {
+      sectionEl.style.display = 'none';
+    }
+  }
+
+  function setType(type) {
+    orderType = type;
+    document.getElementById('btn-pickup').classList.toggle('active', type === 'pickup');
+    // Always show address for context (client can fill if needed)
+  }
+
+  function addToCartAndOpen(tab, idx) {
+    // Build all tabs first
+    buildMenuTab('pizza');
+    buildMenuTab('family');
+    buildMenuTab('sosuri');
+    document.getElementById('orderModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Switch to right tab
+    switchMenuTab(tab);
+    // Add item to cart
+    const key = getKey(tab, idx);
+    quantities[key] = (quantities[key] || 0) + 1;
+    // Rebuild that tab to reflect
+    buildMenuTab(tab);
+    updateTotal();
+    updateSummary();
+  }
+
+  function openOrderModal() {
+    buildMenuTab('pizza');
+    buildMenuTab('family');
+    buildMenuTab('sosuri');
+    document.getElementById('orderModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOrderModal() {
+    document.getElementById('orderModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('orderModal')) closeOrderModal();
+  }
+
+  function sendWhatsApp() {
+    const name  = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const addr  = document.getElementById('f-addr').value.trim();
+    const notes = document.getElementById('f-notes').value.trim();
+
+    if (!name || !phone) { alert('Te rugăm completează numele și telefonul.'); return; }
+    // Ridicare personala - no address needed
+
+    let total = 0;
+    let itemLines = [];
+    Object.keys(quantities).forEach(key => {
+      if (quantities[key] > 0) {
+        const [tab, i] = key.split('-');
+        if (MENUS[tab] && MENUS[tab][i]) {
+          const item = MENUS[tab][i];
+          const subtotal = quantities[key] * item.price;
+          total += subtotal;
+          itemLines.push(`  • ${quantities[key]}x ${item.name} — ${subtotal} RON`);
+        }
+      }
+    });
+
+    if (itemLines.length === 0) { alert('Te rugăm selectează cel puțin un produs.'); return; }
+
+    const typeText = '🏃 *Ridicare personală*';
+
+    const msg = `🍕 *Comandă nouă — Pizzeria SIO*\n\n` +
+      `👤 *Nume:* ${name}\n` +
+      `📞 *Telefon:* ${phone}\n` +
+      `${typeText}\n\n` +
+      `*Produse comandate:*\n${itemLines.join('\n')}\n\n` +
+      `💰 *Total: ${total} RON*` +
+      (notes ? `\n\n📝 *Mențiuni:* ${notes}` : '');
+
+    window.open('https://wa.me/40748317785?text=' + encodeURIComponent(msg), '_blank');
+    closeOrderModal();
+  }
+
+  // ESC key closes modal
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOrderModal(); });
+
+  function showTab(tab, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    ['pizza','family','sosuri'].forEach(id => {
+      document.getElementById('tab-'+id).style.display = (id === tab) ? 'block' : 'none';
+    });
+  }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+  const todayRow = document.getElementById('day-' + new Date().getDay());
+  if (todayRow) todayRow.classList.add('today');
+</script>
+</body>
+</html>
